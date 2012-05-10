@@ -1,0 +1,15 @@
+# red-panda
+
+Simple IRC Bot written in Clojure
+
+## Usage
+
+edit scr/red_panda/servers.clj
+add your server or edit default
+change server in core.clj to your's
+
+lein run
+
+## License
+
+Distributed under the Eclipse Public License, the same as Clojure.
