@@ -32,11 +32,12 @@
         (msg-handler conn msg)))))
 
 (defn msg-handler [conn msg]
-  (let [[_ nick host channel message :as match] (first (re-seq #"^:(\w+)!~([^\s]+)\sPRIVMSG\s(#\w+)\s:(.+)$" msg))]
-    (doseq [[regexp f] @plugins/plugins]
-      (if (re-find regexp message)
-        (let [response (f regexp nick host message)]
-          (write conn (str "PRIVMSG " channel " :" response)))))))
+  (let [[_ nick host channel message :as match] (first (re-seq #"^:(\w+)!~([^\s]+)\sPRIVMSG\s(#[^\s]+)\s:(.+)$" msg))]
+    (if (string? message)
+      (doseq [[regexp f] @plugins/plugins]
+        (if (re-find regexp message)
+          (let [response (f regexp nick host message)]
+            (write conn (str "PRIVMSG " channel " :" response))))))))
 
 (defn login [conn user]
   (write conn (str "NICK " (:nick user)))
