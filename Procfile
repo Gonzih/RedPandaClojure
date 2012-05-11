@@ -1,1 +1,1 @@
-worker: lein run
+app: lein run

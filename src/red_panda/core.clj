@@ -4,7 +4,7 @@
   (:import (java.net Socket)
            (java.io PrintWriter InputStreamReader BufferedReader)))
 
-(def user {:nick "RedPanda"})
+(def user {:nick "RedPandaClojure"})
 (declare conn-handler msg-handler)
 
 (defn connect [server]
@@ -44,7 +44,7 @@
   (write conn (str "USER " (:nick user) " 0 * :" (:nick user))))
 
 (defn -main []
-  (let [irc (connect servers/localhost)]
+  (let [irc (connect servers/freenode)]
     (login irc user)
-    (write irc "JOIN #test"))
+    (write irc "JOIN #gnzh-panda-test"))
   "RedPanda is alive")
