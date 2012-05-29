@@ -36,8 +36,9 @@
     (if (string? message)
       (doseq [[regexp f] @plugins/plugins]
         (if (re-find regexp message)
-          (let [response (f regexp nick host message)]
-            (write conn (str "PRIVMSG " channel " :" response))))))))
+          (let [response (f regexp nick host message channel)]
+            (if response
+            (write conn (str "PRIVMSG " channel " :" response)))))))))
 
 (defn login [conn user]
   (write conn (str "NICK " (:nick user)))

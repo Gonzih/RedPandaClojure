@@ -1,4 +1,7 @@
-(ns red-panda.plugins)
+(ns red-panda.plugins
+  (:require [red-panda.messages :as messages]
+            [clj-time.core :as time])
+  (:import  [java.util Date]))
 
 (def plugins (atom {}))
 
@@ -11,9 +14,15 @@
 ; nick - user's nick
 ; host - user's host
 ; message - user's message
+; channel - channel
 
-(add-plugin #"(?i)ping" (fn [_ nick host message]
-                      (str nick ": PONG")))
+; PING PONG plugin
+(add-plugin #"(?i)ping" (fn [_ nick & opts]
+                          (str nick ": PONG")))
+
+(add-plugin #".*" (fn [_ nick host message channel]
+                    (messages/add-message {:nick nick :message message :channel channel :host host :time (time/now)})
+                    false))
 
 ; === End of Plugins ===
 ; Collect plugins
