@@ -4,15 +4,19 @@
   (:import (java.net Socket)
            (java.io PrintWriter InputStreamReader BufferedReader)))
 
-(def user {:nick "RedPandaClojure"})
+(def user {:nick "RedPanda"})
+(def channels ["gnzh-panda-test"])
 (declare conn-handler msg-handler)
+
+(defn log [s]
+  (println s))
 
 (defn connect [server]
   (let [socket (Socket. (:host server) (:port server))
         in (BufferedReader. (InputStreamReader. (.getInputStream socket)))
         out (PrintWriter. (.getOutputStream socket))
         conn (ref {:in in :out out})]
-    (doto (Thread. #(conn-handler conn)) (.start))
+    (future (conn-handler conn))
     conn))
 
 (defn write [conn msg]
@@ -23,6 +27,7 @@
 (defn conn-handler [conn]
   (while (nil? (:exit @conn))
     (let [msg (.readLine (:in @conn))]
+      (log msg)
       (cond
         (re-find #"^ERROR :Closing Link:" msg)
         (dosync (alter conn merge {:exit true}))
@@ -36,16 +41,19 @@
     (if (string? message)
       (doseq [[regexp f] @plugins/plugins]
         (if (re-find regexp message)
-          (let [response (f regexp nick host message channel)]
-            (if response
-            (write conn (str "PRIVMSG " channel " :" response)))))))))
+          (if-let [response (f regexp nick host message channel)]
+            (write conn (str "PRIVMSG " channel " :" response))))))))
 
 (defn login [conn user]
   (write conn (str "NICK " (:nick user)))
   (write conn (str "USER " (:nick user) " 0 * :" (:nick user))))
 
+(defn irc-join [irc channel]
+  (write irc (str "JOIN #" channel)))
+
+
 (defn -main []
-  (let [irc (connect servers/freenode)]
+  (let [irc (connect servers/localhost)]
     (login irc user)
-    (write irc "JOIN #gnzh-panda-test"))
+    (doall (map (partial irc-join irc) channels)))
   "RedPanda is alive")
