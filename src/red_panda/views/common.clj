@@ -6,7 +6,7 @@
             (html5
               [:head
                 [:title "red-panda"]
-                  (include-css "/css/reset.css")]
+                  (include-css "/css/bootstrap.min.css")]
               [:body
-                [:div#wrapper
+                [:div.container
                   content]]))
