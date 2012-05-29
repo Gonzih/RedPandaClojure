@@ -1,5 +1,8 @@
 (ns red-panda.core
-  (:require [red-panda.irc-server :as irc]))
+  (:require [red-panda.irc-server  :as irc]
+            [red-panda.http-server :as http]))
 
 (defn -main [& m]
-  (irc/start))
+  (let [env (keyword (or (first m) :dev))]
+    (irc/start)
+    (http/start env)))
