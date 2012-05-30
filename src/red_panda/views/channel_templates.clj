@@ -12,8 +12,14 @@
 (defn channel-caption [channel]
   (str "(" (messages/count channel) ") #" channel))
 
+(defn channel-url [channel & [page]]
+  (str "/channels/" channel "/" (or page 1)))
+
+(defpartial channel-link [channel & [page]]
+  (link-to (channel-url channel page) (channel-caption channel)))
+
 (defpartial channel [channel]
-            (let [a (link-to (str "/channels/" channel "/1") (channel-caption channel))]
+            (let [a (channel-link channel)]
               (if (= channel (current))
                 [:li.active a]
                 [:li a])))
