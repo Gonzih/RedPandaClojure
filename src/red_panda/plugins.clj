@@ -17,8 +17,8 @@
 ; channel - channel
 
 ; PING PONG plugin
-(add-plugin #"(?i)ping" (fn [_ nick & opts]
-                          (str nick ": PONG")))
+;(add-plugin #"(?i)ping" (fn [_ nick & opts]
+                          ;(str nick ": PONG")))
 
 (add-plugin #".*" (fn [_ nick host message channel]
                     (messages/add-message {:nick nick :message message :channel channel :host host :time (time/now)})
