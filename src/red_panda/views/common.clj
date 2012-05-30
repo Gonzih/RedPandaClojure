@@ -7,7 +7,8 @@
             (html5
               [:head
                 [:title "red-panda"]
-                  (include-css "/css/bootstrap.min.css")]
+                  (include-css "/css/bootstrap.min.css")
+                  (include-css "/css/red-panda.css")]
               [:body
                 [:div.container-fluid
                  [:div.row-fluid

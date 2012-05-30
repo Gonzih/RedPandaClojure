@@ -10,7 +10,8 @@
   (session/get :channel))
 
 (defn channel-caption [channel]
-  (str "(" (messages/count channel) ") #" channel))
+  (html [:span.channel (str "#" channel " ")]
+        [:span.badge.badge-success (messages/count channel)]))
 
 (defn channel-url [channel & [page]]
   (str "/channels/" channel "/" (or page 1)))
