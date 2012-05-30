@@ -1,3 +1,7 @@
 .nav span.badge {
         float: right;
 }
+
+table.table tr.new {
+        background-color: #F2DEDE;
+}
