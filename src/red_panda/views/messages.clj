@@ -1,12 +1,11 @@
 (ns red-panda.views.messages
   (:use [noir.core :only [defpartial]]
         [hiccup.core :only [html]]
-        [clj-time.format]
-        [clj-time.coerce]))
+        [clj-time.format]))
 
 (defpartial message-time [message]
-            (let [tf (formatter "hh:mm:ss dd/MM/yyyy")]
-              (unparse tf (to-local-date-time (:time message)))))
+            (let [tf (formatter "hh:mm:ss")]
+              (unparse tf (:time message))))
 
 (defpartial message [message]
             [:tr
