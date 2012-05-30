@@ -3,6 +3,6 @@
             [red-panda.http-server :as http]))
 
 (defn -main [& m]
-  (let [env (keyword (or (first m) :dev))]
-    (irc/start)
-    (http/start env)))
+  (let [mode (keyword (or (first m) :dev))]
+    (irc/start mode)
+    (http/start mode)))

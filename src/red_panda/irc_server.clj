@@ -8,14 +8,14 @@
 (def channels ["clojure" "archlinux" "ruby" "RubyOnRails"])
 (declare conn-handler msg-handler)
 
-(defn log [s]
-  (println s))
+(defn log [s & [mode]]
+  (when (= mode :dev) (println s)))
 
-(defn connect [server]
+(defn connect [server mode]
   (let [socket (Socket. (:host server) (:port server))
         in (BufferedReader. (InputStreamReader. (.getInputStream socket)))
         out (PrintWriter. (.getOutputStream socket))
-        conn (ref {:in in :out out})]
+        conn (ref {:in in :out out :mode mode})]
     (future (conn-handler conn))
     conn))
 
@@ -27,7 +27,7 @@
 (defn conn-handler [conn]
   (while (nil? (:exit @conn))
     (let [msg (.readLine (:in @conn))]
-      (log msg)
+      (log msg (:mode @conn))
       (cond
         (re-find #"^ERROR :Closing Link:" msg)
         (dosync (alter conn merge {:exit true}))
@@ -51,8 +51,8 @@
 (defn irc-join [irc channel]
   (write irc (str "JOIN #" channel)))
 
-(defn start []
-  (let [irc (connect servers/freenode)]
+(defn start [mode]
+  (let [irc (connect servers/freenode mode)]
     (login irc user)
     (doall (map (partial irc-join irc) channels)))
   "RedPanda is alive")
