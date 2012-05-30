@@ -6,13 +6,17 @@
   (:require [red-panda.irc-server :as irc]
             [noir.session :as session]
             [red-panda.messages :as messages]
-            [clj-time.core :as time]))
+            [clj-time.core :as time]
+            [red-panda.views.channel-pages :as channels]))
 
 (defn current []
   (session/get :channel))
 
 (defpartial unread-badge [channel]
-            (let [tm (or (session/get :last_checked) (to-long (time/now)))
+            (if (nil? ((session/get :last_checked) channel))
+              (channels/visited-channel-page channel))
+            (let [lc (session/get :last_checked)
+                  tm (lc channel)
                   count (messages/count-unread channel tm)]
               (if (> count 0)
                 [:span.badge.badge-important count]

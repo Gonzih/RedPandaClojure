@@ -9,7 +9,9 @@
             [clj-time.core :as time]))
 
 (defn visited-channel-page [channel]
-  (session/put! :last_checked (to-long (time/now))))
+  (let [old_val (session/get :last_checked)
+        tm (to-long (time/now))]
+    (session/put! :last_checked (assoc old_val channel tm))))
 
 (defpage "/channels/:channel/:page" {:keys [channel page]}
          (session/put! :channel channel)
