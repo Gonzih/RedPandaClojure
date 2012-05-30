@@ -1,7 +1,8 @@
 (ns red-panda.views.channel-templates
   (:use [noir.core :only [defpartial defpage]]
         [hiccup.core :only [html]]
-        [hiccup.page-helpers])
+        [hiccup.page-helpers]
+        [clj-time.coerce])
   (:require [red-panda.irc-server :as irc]
             [noir.session :as session]
             [red-panda.messages :as messages]
@@ -11,7 +12,7 @@
   (session/get :channel))
 
 (defpartial unread-badge [channel]
-            (let [tm (or (session/get :last_checked) time/now)
+            (let [tm (or (session/get :last_checked) (to-long (time/now)))
                   count (messages/count-unread channel tm)]
               (if (> count 0)
                 [:span.badge.badge-important count]
