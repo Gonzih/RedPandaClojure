@@ -1,7 +1,7 @@
 (ns red-panda.views.common
   (:use [noir.core :only [defpartial]]
         [hiccup.page-helpers :only [include-css html5]]
-        [red-panda.views.channels :as chan-templates]))
+        [red-panda.views.channel-templates :as chan-templates]))
 
 (defpartial layout [& content]
             (html5
