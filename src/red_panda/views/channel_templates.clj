@@ -7,7 +7,7 @@
             [red-panda.messages :as messages]))
 
 (defn current []
-  (or (session/get :channel) (first irc/channels)))
+  (session/get :channel))
 
 (defn channel-caption [channel]
   (str "(" (messages/count channel) ") #" channel))
