@@ -13,12 +13,12 @@
   (session/get :channel))
 
 (defn prefill-channel-time [channel]
-  (if (or (nil? (session/get :last_checked))
-          (nil? ((session/get :last_checked) channel)))
+  (if (or (nil? (session/get :last-checked))
+          (nil? ((session/get :last-checked) channel)))
     (channels/visited-channel-page channel)))
 
 (defpartial badge [channel]
-            (let [lc (session/get :last_checked)
+            (let [lc (session/get :last-checked)
                   tm (lc channel)
                   count (messages/count-unread channel tm)]
               (if (> count 0)

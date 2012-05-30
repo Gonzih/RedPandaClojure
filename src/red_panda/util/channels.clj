@@ -4,7 +4,7 @@
             [noir.session :as session]))
 
 (defn visited-channel-page [channel]
-  (let [old_val (session/get :last_checked)
+  (let [old_val (session/get :last-checked)
         tm (to-long (time/now))]
-    (session/put! :last_checked (assoc old_val channel tm))))
+    (session/put! :last-checked (assoc old_val channel tm))))
 
