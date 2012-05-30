@@ -10,7 +10,7 @@
   (or (session/get :channel) (first irc/channels)))
 
 (defn channel-caption [channel]
-  (str "(" (messages/count channel) ") " channel))
+  (str "(" (messages/count channel) ") #" channel))
 
 (defpartial channel [channel]
             (let [a (link-to (str "/channels/" channel "/1") (channel-caption channel))]
