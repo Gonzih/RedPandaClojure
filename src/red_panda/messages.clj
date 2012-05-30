@@ -15,7 +15,8 @@
   (mc/insert coll data))
 
 (defn get-messages [& [channel page]]
-  (mq/with-collection coll
-                      (mq/find { :channel channel })
-                      (mq/paginate :page (or page 1) :per-page per-page)
-                      (mq/sort { :time -1})))
+  (let [chan (str "#" channel)]
+    (mq/with-collection coll
+                        (mq/find { :channel chan })
+                        (mq/paginate :page (or page 1) :per-page per-page)
+                        (mq/sort { :time -1}))))

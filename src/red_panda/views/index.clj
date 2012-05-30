@@ -8,4 +8,4 @@
 
 (defpage "/" []
         (common/layout
-          (msg-templates/messages (messages/get-messages (str "#" (first irc/channels))))))
+          (msg-templates/messages (messages/get-messages (first irc/channels)))))

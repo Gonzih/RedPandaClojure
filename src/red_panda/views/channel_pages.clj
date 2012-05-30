@@ -9,4 +9,4 @@
 (defpage "/channels/:channel" {:keys [channel]}
          (session/put! :channel channel)
          (common/layout
-           (msg-templates/messages (messages/get-messages (str "#" channel)))))
+           (msg-templates/messages (messages/get-messages channel))))
