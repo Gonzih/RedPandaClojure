@@ -4,8 +4,8 @@
   (:import (java.net Socket)
            (java.io PrintWriter InputStreamReader BufferedReader)))
 
-(def user {:nick "RedPanda"})
-(def channels ["gnzh-panda-test"])
+(def user {:nick "red-panda"})
+(def channels ["clojure" "archlinux" "ruby" "RubyOnRails"])
 (declare conn-handler msg-handler)
 
 (defn log [s]
@@ -52,7 +52,7 @@
   (write irc (str "JOIN #" channel)))
 
 (defn start []
-  (let [irc (connect servers/localhost)]
+  (let [irc (connect servers/freenode)]
     (login irc user)
     (doall (map (partial irc-join irc) channels)))
   "RedPanda is alive")
