@@ -1,12 +1,14 @@
 (ns red-panda.views.messages
   (:use [noir.core :only [defpartial]]
         [hiccup.core :only [html]]
-        [clj-time.format])
+        [clj-time.core :as time]
+        [clj-time.format]
+        [clj-time.coerce])
   (:require [red-panda.views.paging :as paging]))
 
 (defpartial message-time [message]
             (let [tf (formatter "hh:mm:ss")]
-              (unparse tf (:time message))))
+              (unparse tf (from-long (:time message)))))
 
 (defpartial message [message]
             [:tr

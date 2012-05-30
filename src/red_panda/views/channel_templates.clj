@@ -4,14 +4,21 @@
         [hiccup.page-helpers])
   (:require [red-panda.irc-server :as irc]
             [noir.session :as session]
-            [red-panda.messages :as messages]))
+            [red-panda.messages :as messages]
+            [clj-time.core :as time]))
 
 (defn current []
   (session/get :channel))
 
+(defpartial unread-badge [channel]
+            (let [tm (or (session/get :last_checked) time/now)
+                  count (messages/count-unread channel tm)]
+              (if (> count 0)
+                [:span.badge.badge-important count]
+                [:span.badge.badge-success count])))
+
 (defn channel-caption [channel]
-  (html [:span.channel (str "#" channel " ")]
-        [:span.badge.badge-important (messages/count channel)]))
+  (html [:span.channel (str "#" channel " ")] (unread-badge channel)))
 
 (defn channel-url [channel & [page]]
   (str "/channels/" channel "/" (or page 1)))
