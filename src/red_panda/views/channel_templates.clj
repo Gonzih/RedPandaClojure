@@ -11,7 +11,7 @@
 
 (defn channel-caption [channel]
   (html [:span.channel (str "#" channel " ")]
-        [:span.badge.badge-success (messages/count channel)]))
+        [:span.badge.badge-important (messages/count channel)]))
 
 (defn channel-url [channel & [page]]
   (str "/channels/" channel "/" (or page 1)))
