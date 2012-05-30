@@ -8,6 +8,9 @@
             [noir.session :as session]
             [clj-time.core :as time]))
 
+(defn visited-channel-page [channel]
+  (session/put! :last_checked (to-long (time/now))))
+
 (defpage "/channels/:channel/:page" {:keys [channel page]}
          (session/put! :channel channel)
          (let [page (Integer/parseInt (or page 1))
@@ -16,5 +19,5 @@
                                                 channel
                                                 page
                                                 (messages/count channel)))]
-           (session/put! :last_checked (to-long (time/now)))
+           (visited-channel-page channel)
            output))
