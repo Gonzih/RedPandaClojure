@@ -12,16 +12,22 @@
 (defn current []
   (session/get :channel))
 
-(defpartial unread-badge [channel]
-            (if (or (nil? (session/get :last_checked))
-                    (nil? ((session/get :last_checked) channel)))
-              (channels/visited-channel-page channel))
+(defn prefill-channel-time [channel]
+  (if (or (nil? (session/get :last_checked))
+          (nil? ((session/get :last_checked) channel)))
+    (channels/visited-channel-page channel)))
+
+(defpartial badge [channel]
             (let [lc (session/get :last_checked)
                   tm (lc channel)
-                  count (or (messages/count-unread channel tm) 0)]
+                  count (messages/count-unread channel tm)]
               (if (> count 0)
                 [:span.badge.badge-important count]
                 [:span.badge.badge-success count])))
+
+(defn unread-badge [channel]
+  (prefill-channel-time channel)
+  (badge channel))
 
 (defn channel-caption [channel]
   (html [:span.channel (str "#" channel " ")] (unread-badge channel)))
