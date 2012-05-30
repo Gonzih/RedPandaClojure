@@ -13,9 +13,9 @@
 
 (defn message-tr [channel message]
   (let [t (:time message)
-        l (or ((or (session/get :last_checked)
-                   {}) channel)
-              (to-long (time/now)))]
+        l (if-let [last-checked (session/get :last_checked)]
+            (last-checked channel)
+            (to-long (time/now)))]
     (if (> t l) :tr.new :tr)))
 
 (defn message [channel message]
