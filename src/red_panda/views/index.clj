@@ -7,5 +7,9 @@
         [hiccup.core :only [html]]))
 
 (defpage "/" []
-        (common/layout
-          (msg-templates/messages (messages/get-messages (first irc/channels)))))
+         (let [channel (first irc/channels)]
+           (common/layout
+             (msg-templates/messages (messages/get-messages channel)
+                                     channel
+                                     1
+                                     (messages/count channel)))))

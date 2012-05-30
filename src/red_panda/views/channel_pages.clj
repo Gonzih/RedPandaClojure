@@ -6,7 +6,11 @@
             [red-panda.messages :as messages]
             [noir.session :as session]))
 
-(defpage "/channels/:channel" {:keys [channel]}
+(defpage "/channels/:channel/:page" {:keys [channel page]}
          (session/put! :channel channel)
-         (common/layout
-           (msg-templates/messages (messages/get-messages channel))))
+         (let [page (Integer/parseInt (or page 1))]
+           (common/layout
+             (msg-templates/messages (messages/get-messages channel page)
+                                     channel
+                                     page
+                                     (messages/count channel)))))

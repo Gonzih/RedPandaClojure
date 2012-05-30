@@ -12,7 +12,7 @@
   channel)
 
 (defpartial channel [channel]
-            (let [a (link-to (str "/channels/" channel) (channel-caption channel))]
+            (let [a (link-to (str "/channels/" channel "/1") (channel-caption channel))]
               (if (= channel (current))
                 [:li.active a]
                 [:li a])))
