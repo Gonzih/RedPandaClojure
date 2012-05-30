@@ -7,13 +7,14 @@
             [noir.session :as session]
             [red-panda.messages :as messages]
             [clj-time.core :as time]
-            [red-panda.views.channel-pages :as channels]))
+            [red-panda.util.channels :as channels]))
 
 (defn current []
   (session/get :channel))
 
 (defpartial unread-badge [channel]
-            (if (nil? ((session/get :last_checked) channel))
+            (if (or (nil? (session/get :last_checked))
+                    (nil? ((session/get :last_checked) channel)))
               (channels/visited-channel-page channel))
             (let [lc (session/get :last_checked)
                   tm (lc channel)

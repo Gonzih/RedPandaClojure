@@ -6,12 +6,8 @@
             [red-panda.views.messages :as msg-templates]
             [red-panda.messages :as messages]
             [noir.session :as session]
-            [clj-time.core :as time]))
-
-(defn visited-channel-page [channel]
-  (let [old_val (session/get :last_checked)
-        tm (to-long (time/now))]
-    (session/put! :last_checked (assoc old_val channel tm))))
+            [clj-time.core :as time]
+            [red-panda.util.channels :as channels]))
 
 (defpage "/channels/:channel/:page" {:keys [channel page]}
          (session/put! :channel channel)
@@ -21,5 +17,5 @@
                                                 channel
                                                 page
                                                 (messages/count channel)))]
-           (visited-channel-page channel)
+           (channels/visited-channel-page channel)
            output))
