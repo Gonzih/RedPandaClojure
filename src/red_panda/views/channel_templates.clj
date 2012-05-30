@@ -18,7 +18,7 @@
               (channels/visited-channel-page channel))
             (let [lc (session/get :last_checked)
                   tm (lc channel)
-                  count (messages/count-unread channel tm)]
+                  count (or (messages/count-unread channel tm) 0)]
               (if (> count 0)
                 [:span.badge.badge-important count]
                 [:span.badge.badge-success count])))
