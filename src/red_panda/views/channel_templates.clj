@@ -3,13 +3,14 @@
         [hiccup.core :only [html]]
         [hiccup.page-helpers])
   (:require [red-panda.irc-server :as irc]
-            [noir.session :as session]))
+            [noir.session :as session]
+            [red-panda.messages :as messages]))
 
 (defn current []
   (or (session/get :channel) (first irc/channels)))
 
 (defn channel-caption [channel]
-  channel)
+  (str "(" (messages/count channel) ") " channel))
 
 (defpartial channel [channel]
             (let [a (link-to (str "/channels/" channel "/1") (channel-caption channel))]
