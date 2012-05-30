@@ -4,24 +4,32 @@
         [clj-time.core :as time]
         [clj-time.format]
         [clj-time.coerce])
-  (:require [red-panda.views.paging :as paging]))
+  (:require [red-panda.views.paging :as paging]
+            [noir.session :as session]))
 
 (defpartial message-time [message]
             (let [tf (formatter "hh:mm:ss")]
               (unparse tf (from-long (:time message)))))
 
-(defpartial message [message]
-            [:tr
-             [:td
-              (message-time message)]
-             [:td
-              (:nick message)]
-             [:td
-              (:message message)]])
+(defn message-tr [channel message]
+  (let [t (:time message)
+        l (or ((or (session/get :last_checked)
+                   {}) channel)
+              (to-long (time/now)))]
+    (if (> t l) :tr.new :tr)))
+
+(defn message [channel message]
+  (html [(message-tr channel message)
+         [:td
+          (message-time message)]
+         [:td
+          (:nick message)]
+         [:td
+          (:message message)]]))
 
 (defpartial messages [messages channel page total]
             (paging/paging channel page total)
             [:table.table
              [:tbody
-              (map message messages)]]
+              (map (partial message channel) messages)]]
             (paging/paging channel page total))
