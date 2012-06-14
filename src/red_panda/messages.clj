@@ -8,8 +8,11 @@
             [monger.joda-time])
   (:import [com.mongodb MongoOptions ServerAddress]))
 
-(mg/connect!)
-(mg/set-db! (mg/get-db "red-panda"))
+(if-let [uri (System/getenv "MONGOHQ_URL")]
+  (mg/connect-via-uri! uri)
+  (do (mg/connect!)
+      (mg/set-db! (mg/get-db "red-panda"))))
+
 
 (def coll "messages")
 (def per-page 50)
