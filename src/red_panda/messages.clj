@@ -8,7 +8,7 @@
             [monger.joda-time])
   (:import [com.mongodb MongoOptions ServerAddress]))
 
-(if-let [uri (System/getenv "MONGOHQ_URL")]
+(if-let [uri (or (System/getenv "MONGOHQ_URL") (System/getenv "MONGOLAB_URI"))]
   (mg/connect-via-uri! uri)
   (do (mg/connect!)
       (mg/set-db! (mg/get-db "red-panda"))))
