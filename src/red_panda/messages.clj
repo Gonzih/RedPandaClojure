@@ -15,6 +15,7 @@
 
 
 (def coll "messages")
+(mc/ensure-index coll {"time" -1})
 (def per-page 50)
 
 (defn add-message [data]
