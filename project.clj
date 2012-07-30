@@ -1,8 +1,13 @@
 (defproject red-panda "1.0.0-SNAPSHOT"
   :description "IRC bot written in clojure"
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [com.novemberain/monger "1.1.2"]
-                 [clj-time "0.4.2"]
-                 [org.clojure/data.json "0.1.2"]
+                 [congomongo "0.1.9"]
+                 [joda-time "1.6"]
                  [noir "1.2.2"]]
+  :plugins [[lein-cljsbuild "0.2.4"]]
+  :cljsbuild {:builds [{:builds nil,
+                        :source-path "src-cljs",
+                        :compiler {:pretty-print true,
+                                   :output-to "resources/public/js/cljs.js",
+                                   :optimizations :simple}}]}
   :main red-panda.core)
