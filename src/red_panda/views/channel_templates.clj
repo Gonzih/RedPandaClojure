@@ -21,7 +21,7 @@
             (let [lc (session/get :last-checked)
                   tm (lc channel)
                   count (messages/count-unread channel tm)]
-              (if (> count 0)
+              (if (pos? count)
                 [:span.badge.badge-important count]
                 [:span.badge.badge-success count])))
 

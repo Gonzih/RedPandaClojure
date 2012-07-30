@@ -8,19 +8,19 @@
 (defn pages [total]
   (let [per-page messages/per-page
         p (quot total per-page)]
-    (if (= (mod total per-page) 0)
+    (if (zero? (mod total per-page))
       p
       (inc p))))
 
 (defpartial prev [channel page]
             (if (= page 1)
                [:li.disabled (link-to "#" "«")]
-               [:li (link-to (str "/channels/" channel "/" (- page 1)) "«")]))
+               [:li (link-to (str "/channels/" channel "/" (dec page)) "«")]))
 
 (defpartial next [channel page pages]
             (if (= page pages)
                [:li.disabled (link-to "#" "»")]
-               [:li (link-to (str "/channels/" channel "/" (+ page 1)) "»")]))
+               [:li (link-to (str "/channels/" channel "/" (inc page)) "»")]))
 
 (defpartial paging [channel page total]
             [:div.pagination
