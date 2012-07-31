@@ -4,5 +4,6 @@
                  [congomongo "0.1.9"]
                  [joda-time "1.6"]
                  [noir-cljs "0.3.0"]
+                 [jayq "0.1.0-alpha2"]
                  [noir "1.3.0-beta10"]]
   :main ^{:skip-aot true} red-panda.core)
