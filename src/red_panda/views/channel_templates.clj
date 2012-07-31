@@ -4,7 +4,7 @@
         [hiccup.element]
         [hiccup.page]
         [clj-time.coerce])
-  (:require [red-panda.irc-server :as irc]
+  (:require [red-panda.irc-client :as irc]
             [noir.session :as session]
             [red-panda.messages :as messages]
             [clj-time.core :as time]

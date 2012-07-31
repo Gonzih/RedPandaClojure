@@ -1,10 +1,10 @@
-(ns red-panda.irc-server
-  (:use [red-panda.irc-servers :as servers]
-        [red-panda.plugins :as plugins])
+(ns red-panda.irc-client
+  (:require [red-panda.irc-clients :as servers]
+            [red-panda.plugins :as plugins])
   (:import (java.net Socket)
            (java.io PrintWriter InputStreamReader BufferedReader)))
 
-(def user {:nick "red-panda"})
+(def user {:nick "redpanda"})
 (def channels ["clojure" "archlinux" "ruby" "RubyOnRails"])
 (declare conn-handler msg-handler)
 
@@ -52,7 +52,7 @@
   (write irc (str "JOIN #" channel)))
 
 (defn start [mode]
-  (let [irc (connect servers/freenode mode)]
+  (let [irc (connect servers/localhost mode)]
     (login irc user)
     (doall (map (partial irc-join irc) channels)))
   "RedPanda is alive")

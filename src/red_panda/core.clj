@@ -1,5 +1,5 @@
 (ns red-panda.core
-  (:require [red-panda.irc-server  :as irc]
+  (:require [red-panda.irc-client  :as irc]
             [red-panda.web-socket-server :as ws]
             [red-panda.http-server :as http]))
 
