@@ -42,7 +42,7 @@
 (defpartial channel [channel]
             (let [a (channel-link channel)]
               (if (= channel (current))
-                [:li.active a]
+                [:li.active.channel {:data-channel channel} a]
                 [:li a])))
 
 (defpartial render-channels []
