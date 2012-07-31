@@ -14,9 +14,7 @@
 
 
 (defn add-message [data]
-  (let [now (time-now)
-        new-data (assoc data :time now)]
-    (mongo/insert! coll new-data)))
+  (mongo/insert! coll data))
 
 (defn get-messages [& [channel page date]]
   (let [channel (str "#" channel)
