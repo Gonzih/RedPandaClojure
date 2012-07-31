@@ -1,6 +1,7 @@
 (ns red-panda.web-socket-server
   (:require [clojure.data.json :as json]
-            [clojure.string :as s])
+            [clojure.string :as s]
+            [red-panda.irc-channels :as irc])
   (:import [org.webbitserver WebServer WebServers WebSocketHandler]
            [org.webbitserver.handler StaticFileHandler]))
 
@@ -14,7 +15,8 @@
   (into {} (for [[k v] clients] [k (disj v connection)])))
 
 (defn subscribe [connection channel]
-  (swap! clients add-client connection channel))
+  (when (contains? irc/channels channel)
+    (swap! clients add-client connection channel)))
 
 (defn unsubscribe [connection]
   (swap! clients rm-client connection))

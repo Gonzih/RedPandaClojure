@@ -1,11 +1,11 @@
 (ns red-panda.irc-client
+  (:use [red-panda.irc-channels])
   (:require [red-panda.irc-servers :as servers]
             [red-panda.plugins :as plugins])
   (:import (java.net Socket)
            (java.io PrintWriter InputStreamReader BufferedReader)))
 
 (def user {:nick "redpanda"})
-(def channels ["clojure" "archlinux" "ruby" "RubyOnRails"])
 (declare conn-handler msg-handler)
 
 (defn log [s & [mode]]
