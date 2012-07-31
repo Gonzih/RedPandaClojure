@@ -1,6 +1,28 @@
 (ns red-panda.core
-  (:use [jayq.core   :only [$ css inner prepend document-ready data anim fade-in]]
+  (:use [jayq.core   :only [$ css inner prepend append document-ready data anim fade-in fade-out bind]]
         [jayq.util   :only [log map->js]]))
+
+
+(def page-loader ($ "table tbody tr.loader"))
+
+(defn hide-page-loader []
+  (fade-out page-loader 100))
+
+(defn show-page-loader []
+  (fade-in page-loader 100))
+
+(defn load-page [] (show-page-loader))
+
+(defn scroll-handler []
+  (when (=
+          (.scrollTop ($ js/window))
+          (-
+            (.height ($ js/document))
+            (.height ($ js/window))))
+    (load-page)))
+
+(defn bind-scroll []
+  (bind ($ js/window) :scroll scroll-handler))
 
 (defn to-json [data]
   "Convert map -> json -> string"
@@ -41,4 +63,5 @@
 (document-ready
   #((set! (.-onopen ws) on-open)
     (set! (.-onclose ws) on-close)
-    (set! (.-onmessage ws) on-message)))
+    (set! (.-onmessage ws) on-message))
+    (bind-scroll))

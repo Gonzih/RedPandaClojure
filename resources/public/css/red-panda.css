@@ -2,8 +2,12 @@
         float: right;
 }
 
-table.table tr.new {
+table.table tr.new, tr.loader {
         display: none;
+}
+
+table.table tr.loader td {
+        text-align: center;
 }
 
 .container-fluid {

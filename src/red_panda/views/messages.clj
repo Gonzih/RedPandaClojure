@@ -2,7 +2,8 @@
   (:use [clj-time.format]
         [clj-time.coerce]
         [noir.core :only [defpartial]]
-        [hiccup.core :only [html]])
+        [hiccup.core :only [html]]
+        [hiccup.element :only [image]])
   (:require [red-panda.views.paging :as paging]
             [noir.session :as session]
             [clj-time.core :as time]))
@@ -23,4 +24,6 @@
 (defpartial messages [messages channel page total]
             [:table.table
              [:tbody
-              (map (partial message channel) messages)]])
+              (map (partial message channel) messages)
+              [:tr.loader
+               [:td {:colspan 3} (image "/img/loader.gif" "Loading")]]]])
