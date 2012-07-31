@@ -3,13 +3,13 @@
         [jayq.util   :only [log map->js]]))
 
 
-(def page-loader ($ "table tbody tr.loader"))
+(defn page-loader [] ($ "table tbody tr.loader"))
 
 (defn hide-page-loader []
-  (fade-out page-loader 100))
+  (fade-out (page-loader) 100))
 
 (defn show-page-loader []
-  (fade-in page-loader 100))
+  (fade-in (page-loader) 100))
 
 (defn load-page [] (show-page-loader))
 
