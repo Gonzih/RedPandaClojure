@@ -21,8 +21,6 @@
           (:message message)]]))
 
 (defpartial messages [messages channel page total]
-            (paging/paging channel page total)
             [:table.table
              [:tbody
-              (map (partial message channel) messages)]]
-            (paging/paging channel page total))
+              (map (partial message channel) messages)]])
