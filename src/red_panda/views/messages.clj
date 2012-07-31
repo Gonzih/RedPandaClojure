@@ -1,25 +1,18 @@
 (ns red-panda.views.messages
-  (:use [noir.core :only [defpartial]]
-        [hiccup.core :only [html]]
-        [clj-time.core :as time]
-        [clj-time.format]
-        [clj-time.coerce])
+  (:use [clj-time.format]
+        [clj-time.coerce]
+        [noir.core :only [defpartial]]
+        [hiccup.core :only [html]])
   (:require [red-panda.views.paging :as paging]
-            [noir.session :as session]))
+            [noir.session :as session]
+            [clj-time.core :as time]))
 
 (defpartial message-time [message]
             (let [tf (formatter "hh:mm:ss")]
               (unparse tf (from-long (:time message)))))
 
-(defn message-tr [channel message]
-  (let [t (:time message)
-        l (if-let [last-checked (session/get :last-checked)]
-            (last-checked channel)
-            (to-long (time/now)))]
-    (if (> t l) :tr.new :tr)))
-
 (defn message [channel message]
-  (html [(message-tr channel message)
+  (html [:tr
          [:td
           (message-time message)]
          [:td

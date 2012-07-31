@@ -8,30 +8,22 @@
             [noir.session :as session]
             [red-panda.messages :as messages]
             [clj-time.core :as time]
-            [red-panda.util.channels :as channels]))
+            [red-panda.util.channels :as channels]
+            [red-panda.web-socket-server :as ws]))
 
 (defn current []
   (session/get :channel))
 
-(defn prefill-channel-time [channel]
-  (if (or (nil? (session/get :last-checked))
-          (nil? ((session/get :last-checked) channel)))
-    (channels/visited-channel-page channel)))
+(defpartial badge [count]
+            (if (pos? count)
+              [:span.badge.badge-success count]
+              [:span.badge.badge-info count]))
 
-(defpartial badge [channel]
-            (let [lc (session/get :last-checked)
-                  tm (lc channel)
-                  count (messages/count-unread channel tm)]
-              (if (pos? count)
-                [:span.badge.badge-important count]
-                [:span.badge.badge-success count])))
-
-(defn unread-badge [channel]
-  (prefill-channel-time channel)
-  (badge channel))
+(defn clients-count [channel]
+  (badge (count (@ws/clients channel))))
 
 (defn channel-caption [channel]
-  (html [:span.channel (str "#" channel " ")] (unread-badge channel)))
+  (html [:span.channel (str "#" channel " ")] (clients-count channel)))
 
 (defn channel-url [channel & [page]]
   (str "/channels/" channel "/" (or page 1)))

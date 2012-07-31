@@ -4,20 +4,33 @@
   (:import [org.webbitserver WebServer WebServers WebSocketHandler]
            [org.webbitserver.handler StaticFileHandler]))
 
-(def clients (atom #{}))
+(def clients (atom {}))
+
+(defn add-client [clients connection channel]
+   (let [channel_clients (get clients channel #{})]
+     (assoc clients channel (conj channel_clients connection))))
+
+(defn rm-client [clients connection]
+  (into {} (for [[k v] clients] [k (disj v connection)])))
+
+(defn subscribe [connection channel]
+  (swap! clients add-client connection channel))
+
+(defn unsubscribe [connection]
+  (swap! clients rm-client connection))
 
 (defn on-message [connection json-message]
-  (println json-message)
-  (.send connection "received"))
-  ;(let [message (-> json-message json/read-json (get-in [:data :message]))]
-    ;(.send connection (json/json-str {:type "upcased" :message (s/upper-case message) }))))
+  (let [message (-> json-message json/read-json)]
+    (println "recievd-data" message)
+    (cond
+      (= (str (:action message)) "subscribe")
+        (subscribe connection (str (:channel message))))))
 
 (defn on-open [connection]
-  (swap! clients conj connection)
   (println "opened" connection))
 
 (defn on-close [connection]
-  (swap! clients disj connection)
+  (unsubscribe connection)
   (println "closed" connection))
 
 (defn start [mode]
@@ -31,6 +44,8 @@
     (.add (StaticFileHandler. "."))
     (.start)))
 
-(defn send-message [m]
-  (doseq [client @clients]
-    (future (.send client (json/json-str m)))))
+(defn send-message [{:keys [channel] :as m}]
+  (let [channel (s/replace channel "#" "")
+        clients (@clients channel)]
+    (doseq [client clients]
+      (future (.send client (json/json-str m))))))
