@@ -22,7 +22,7 @@
   (swap! clients rm-client connection))
 
 (defn on-message [connection json-message]
-  (let [message (-> json-message json/read-json)]
+  (let [message (json/read-json json-message)]
     (println "recievd-data" message)
     (cond
       (= (str (:action message)) "subscribe")
