@@ -23,7 +23,7 @@
     (mongo/fetch coll :where {:channel channel}
                       :skip skip
                       :limit per-page
-                      :sort {:id -1})))
+                      :sort {:time -1})))
 
 (defn count [channel]
   (let [chan (str "#" channel)]
