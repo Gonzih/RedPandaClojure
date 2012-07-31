@@ -1,7 +1,8 @@
 (ns red-panda.views.channel-templates
   (:use [noir.core :only [defpartial defpage]]
         [hiccup.core :only [html]]
-        [hiccup.page-helpers]
+        [hiccup.element]
+        [hiccup.page]
         [clj-time.coerce])
   (:require [red-panda.irc-server :as irc]
             [noir.session :as session]

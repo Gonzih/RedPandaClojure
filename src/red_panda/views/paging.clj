@@ -2,7 +2,8 @@
   (:refer-clojure :exclude [next])
   (:use [noir.core :only [defpartial]]
         [hiccup.core :only [html]]
-        [hiccup.page-helpers])
+        [hiccup.element]
+        [hiccup.page])
   (:require [red-panda.messages :as messages]))
 
 (defn pages [total]

@@ -3,11 +3,6 @@
   :dependencies [[org.clojure/clojure "1.4.0"]
                  [congomongo "0.1.9"]
                  [joda-time "1.6"]
-                 [noir "1.2.2"]]
-  :plugins [[lein-cljsbuild "0.2.4"]]
-  :cljsbuild {:builds [{:builds nil,
-                        :source-path "src-cljs",
-                        :compiler {:pretty-print true,
-                                   :output-to "resources/public/js/cljs.js",
-                                   :optimizations :simple}}]}
-  :main red-panda.core)
+                 [noir-cljs "0.3.0"]
+                 [noir "1.3.0-beta10"]]
+  :main ^{:skip-aot true} red-panda.core)

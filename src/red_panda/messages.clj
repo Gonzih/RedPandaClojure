@@ -18,14 +18,14 @@
         new-data (assoc data :time now)]
     (mongo/insert! coll new-data)))
 
-(defn get-messages [& [channel page]]
+(defn get-messages [& [channel page date]]
   (let [channel (str "#" channel)
         page (or page 1)
         skip (* per-page (dec page))]
     (mongo/fetch coll :where {:channel channel}
                       :skip skip
                       :limit per-page
-                      :sort {:time -1})))
+                      :sort {:id -1})))
 
 (defn count [channel]
   (let [chan (str "#" channel)]
