@@ -8,11 +8,8 @@
             [noir.session :as session]
             [clj-time.core :as time]))
 
-(defpage "/channels/:channel/:page" {:keys [channel page]}
+(defpage "/channels/:channel" {:keys [channel]}
          (session/put! :channel channel)
-         (let [page (Integer/parseInt (or page 1))]
-           (common/layout
-             (msg-templates/messages (messages/get-messages channel page)
-                                     channel
-                                     page
-                                     (messages/count channel)))))
+         (common/layout
+           (msg-templates/messages (messages/get-messages channel)
+                                   channel)))

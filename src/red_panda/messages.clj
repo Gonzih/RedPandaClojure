@@ -16,7 +16,7 @@
 (defn add-message [data]
   (mongo/insert! coll data))
 
-(defn get-messages [& [channel page date]]
+(defn get-messages [& [channel page]]
   (let [channel (str "#" channel)
         page (or page 1)
         skip (* per-page (dec page))]

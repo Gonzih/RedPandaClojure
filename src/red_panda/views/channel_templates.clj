@@ -24,11 +24,11 @@
 (defn channel-caption [channel]
   (html [:span.channel (str "#" channel " ")] (clients-count channel)))
 
-(defn channel-url [channel & [page]]
-  (str "/channels/" channel "/" (or page 1)))
+(defn channel-url [channel]
+  (str "/channels/" channel))
 
-(defpartial channel-link [channel & [page]]
-  (link-to (channel-url channel page) (channel-caption channel)))
+(defpartial channel-link [channel]
+  (link-to (channel-url channel) (channel-caption channel)))
 
 (defpartial channel [channel]
             (let [a (channel-link channel)]
