@@ -5,5 +5,5 @@
   (:use [noir.core :only [defpage]]))
 
 (defpage "/" []
-         (let [channel (first irc/channels)]
+         (let [channel (or (channels/current) (first irc/channels))]
            (resp/redirect (channels/channel-url channel))))

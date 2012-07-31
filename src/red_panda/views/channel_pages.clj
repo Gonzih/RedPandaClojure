@@ -6,16 +6,13 @@
             [red-panda.views.messages :as msg-templates]
             [red-panda.messages :as messages]
             [noir.session :as session]
-            [clj-time.core :as time]
-            [red-panda.util.channels :as channels]))
+            [clj-time.core :as time]))
 
 (defpage "/channels/:channel/:page" {:keys [channel page]}
          (session/put! :channel channel)
-         (let [page (Integer/parseInt (or page 1))
-               output (common/layout
-                        (msg-templates/messages (messages/get-messages channel page)
-                                                channel
-                                                page
-                                                (messages/count channel)))]
-           (channels/visited-channel-page channel)
-           output))
+         (let [page (Integer/parseInt (or page 1))]
+           (common/layout
+             (msg-templates/messages (messages/get-messages channel page)
+                                     channel
+                                     page
+                                     (messages/count channel)))))

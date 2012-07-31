@@ -8,7 +8,6 @@
             [noir.session :as session]
             [red-panda.messages :as messages]
             [clj-time.core :as time]
-            [red-panda.util.channels :as channels]
             [red-panda.web-socket-server :as ws]))
 
 (defn current []
