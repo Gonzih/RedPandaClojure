@@ -1,5 +1,5 @@
 (ns red-panda.irc-client
-  (:require [red-panda.irc-clients :as servers]
+  (:require [red-panda.irc-servers :as servers]
             [red-panda.plugins :as plugins])
   (:import (java.net Socket)
            (java.io PrintWriter InputStreamReader BufferedReader)))
