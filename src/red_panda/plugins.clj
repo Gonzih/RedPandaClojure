@@ -24,14 +24,13 @@
                           ;(str nick ": PONG")))
 
 (add-plugin #".*" (fn [_ nick host message channel]
-                    (messages/add-message {:nick nick :message message :channel channel :host host :time (time-now)})
-                    false))
-
-(add-plugin #".*" (fn [_ nick host message channel]
-                    (let [tf (formatter "hh:mm:ss")
-                          tm (unparse tf (from-long (time-now)))]
-                      (ws/send-message {:nick nick :message message :channel channel :host host :time tm}))
-                    false))
+                    (let [now (time-now)
+                          tf (formatter "hh:mm:ss")
+                          tm (unparse tf (from-long (time-now)))
+                          msg {:nick nick :message message :channel channel :host host}]
+                      (messages/add-message (assoc msg :time now))
+                      (ws/send-message      (assoc msg :time tm))
+                    false)))
 
 ; === End of Plugins ===
 ; Collect plugins
