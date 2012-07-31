@@ -3,5 +3,5 @@
 }
 
 table.table tr.new {
-        background-color: #F2DEDE;
+        display: none;
 }

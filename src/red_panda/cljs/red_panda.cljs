@@ -1,5 +1,5 @@
 (ns red-panda.core
-  (:use [jayq.core   :only [$ css inner prepend document-ready data]]
+  (:use [jayq.core   :only [$ css inner prepend document-ready data anim fade-in]]
         [jayq.util   :only [log map->js]]))
 
 (defn to-json [data]
@@ -18,8 +18,8 @@
 (defn on-close []
   (log "WebSocket Closed"))
 
-(defn row [& html]
-  (str "<tr>" (apply str html) "</tr>"))
+(defn row [html & {:keys [class]}]
+  (str "<tr class='new " class "'>" (apply str html) "</tr>"))
 
 (defn cell [html]
   (str "<td>" html "</td>"))
@@ -27,10 +27,12 @@
 (defn on-message [message]
   (when message
     (let [data (.parse js/JSON (.-data message))
-          html (row (cell (.-time data))
-                    (cell (.-nick data))
-                    (cell (.-message data)))]
-      (prepend ($ "table tbody") html))))
+          id (.floor js/Math (* (.random js/Math) 10000))
+          html (row [(cell (.-time data))
+                     (cell (.-nick data))
+                     (cell (.-message data))] :class id)]
+      (prepend ($ "table tbody") html)
+      (fade-in ($ (str "tr." id)) 1000))))
 
 (def host "ws://localhost:8080/websocket")
 
