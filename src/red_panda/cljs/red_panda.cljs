@@ -3,6 +3,7 @@
         [jayq.util :only [log map->js clj->js]]))
 
 (def current-page 1)
+(def loading-page 0)
 
 (defn to-json [data]
   "Convert map -> js -> string"
@@ -32,13 +33,15 @@
     (.before (page-loader) html)))
 
 (defn load-page []
-  (show-page-loader)
-  (let [params (clj->js {:type "GET" :success page-callback})
-        uri    (str "/channels/"
-                    (current-channel)
-                    "/"
-                    current-page)]
-    (.ajax js/jQuery uri params)))
+  (when (not= current-page loading-page)
+    (set! loading-page current-page)
+    (show-page-loader)
+    (let [params (clj->js {:type "GET" :success page-callback})
+          uri    (str "/channels/"
+                      (current-channel)
+                      "/"
+                      current-page)]
+      (.ajax js/jQuery uri params))))
 
 (defn scroll-handler []
   (when (=
