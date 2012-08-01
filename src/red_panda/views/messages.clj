@@ -9,7 +9,7 @@
             [clj-time.core :as time]))
 
 (defn formatted-time [tm]
-            (let [tf (formatter "dd/MM/yy hh:mm:ss")]
+            (let [tf (formatter "hh:mm:ss dd MMM yyyy")]
               (unparse tf (from-long tm))))
 
 (defpartial message-time [message]
