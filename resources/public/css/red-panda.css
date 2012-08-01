@@ -14,3 +14,11 @@ table.table tr.loader td {
         padding-top: 20px;
         padding-bottom: 20px;
 }
+
+table.table tr td.time {
+        width: 150px;
+}
+
+table.table tr td.nick {
+        width: 100px;
+}

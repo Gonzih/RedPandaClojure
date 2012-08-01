@@ -1,8 +1,9 @@
 (ns red-panda.plugins
   (:require [red-panda.messages :as messages]
-            [red-panda.web-socket-server :as ws])
+            [red-panda.views.messages :as msg-templates]
+            [red-panda.web-socket-server :as ws]
+            [clj-time.core :as time])
   (:use [red-panda.util]
-        [clj-time.core :as time]
         [clj-time.format]
         [clj-time.coerce]))
 
@@ -25,8 +26,7 @@
 
 (add-plugin #".*" (fn [_ nick host message channel]
                     (let [now (time-now)
-                          tf (formatter "hh:mm:ss")
-                          tm (unparse tf (from-long (time-now)))
+                          tm (msg-templates/formatted-time now)
                           msg {:nick nick :message message :channel channel :host host}]
                       (messages/add-message (assoc msg :time now))
                       (ws/send-message      (assoc msg :time tm))

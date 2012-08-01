@@ -8,17 +8,20 @@
             [noir.session :as session]
             [clj-time.core :as time]))
 
+(defn formatted-time [tm]
+            (let [tf (formatter "dd/MM/yy hh:mm:ss")]
+              (unparse tf (from-long tm))))
+
 (defpartial message-time [message]
-            (let [tf (formatter "hh:mm:ss")]
-              (unparse tf (from-long (:time message)))))
+              (formatted-time (:time message)))
 
 (defn message [message]
   (html [:tr
-         [:td
+         [:td.time
           (message-time message)]
-         [:td
+         [:td.nick
           (:nick message)]
-         [:td
+         [:td.message
           (:message message)]]))
 
 (defpartial messages [messages channel]

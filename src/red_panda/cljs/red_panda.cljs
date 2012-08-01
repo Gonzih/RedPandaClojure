@@ -65,19 +65,19 @@
 (defn on-close []
   (log "WebSocket Closed"))
 
-(defn row [html & {:keys [class]}]
-  (str "<tr class='new " class "'>" (apply str html) "</tr>"))
+(defn row [html & {:keys [uniq]}]
+  (str "<tr class='new " uniq "'>" (apply str html) "</tr>"))
 
-(defn cell [html]
-  (str "<td>" html "</td>"))
+(defn cell [html klass]
+  (str "<td class='" (name klass) "'>" html "</td>"))
 
 (defn on-message [message]
   (when message
     (let [data (.parse js/JSON (.-data message))
           id (.floor js/Math (* (.random js/Math) 10000))
-          html (row [(cell (.-time data))
-                     (cell (.-nick data))
-                     (cell (.-message data))] :class id)]
+          html (row [(cell (.-time data) :time)
+                     (cell (.-nick data) :nick)
+                     (cell (.-message data) :message)] :uniq id)]
       (prepend ($ "table tbody") html)
       (fade-in ($ (str "tr." id)) 1000))))
 
