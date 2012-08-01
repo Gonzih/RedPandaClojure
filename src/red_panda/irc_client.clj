@@ -52,7 +52,7 @@
   (write irc (str "JOIN #" channel)))
 
 (defn start [mode]
-  (let [irc (connect servers/localhost mode)]
+  (let [irc (connect servers/freenode mode)]
     (login irc user)
     (doall (map (partial irc-join irc) channels)))
   "RedPanda is alive")
