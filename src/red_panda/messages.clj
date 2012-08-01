@@ -3,9 +3,8 @@
   (:require [somnium.congomongo :as mongo])
   (:use [red-panda.util]))
 
-(let [uri (or (System/getenv "MONGOHQ_URL") (System/getenv "MONGOLAB_URI") (System/getenv "MONGO_URI") "mongodb://localhost")]
-  (-> (mongo/make-connection uri) mongo/set-connection!)
-  (mongo/set-database! "red-panda"))
+(let [uri (or (System/getenv "MONGOHQ_URL") (System/getenv "MONGOLAB_URI") (System/getenv "MONGO_URI") "mongodb://localhost/red-panda")]
+  (-> (mongo/make-connection uri) mongo/set-connection!))
 
 
 (def coll "messages")
