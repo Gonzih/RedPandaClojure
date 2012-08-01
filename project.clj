@@ -1,7 +1,7 @@
 (defproject red-panda "1.0.0-SNAPSHOT"
   :description "IRC bot written in clojure"
   :dependencies [[org.clojure/clojure "1.4.0"]
-                 [congomongo "0.1.9"]
+                 [congomongo "0.1.10"]
                  [clj-time "0.4.4"]
                  [noir-cljs "0.3.0"]
                  [jayq "0.1.0-alpha2"]
