@@ -12,7 +12,7 @@
             (let [tf (formatter "hh:mm:ss")]
               (unparse tf (from-long (:time message)))))
 
-(defn message [channel message]
+(defn message [message]
   (html [:tr
          [:td
           (message-time message)]
@@ -24,6 +24,6 @@
 (defpartial messages [messages channel]
             [:table.table
              [:tbody
-              (map (partial message channel) messages)
+              (map message messages)
               [:tr.loader
                [:td {:colspan 3} (image "/img/loader.gif" "Loading")]]]])
