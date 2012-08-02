@@ -25,7 +25,7 @@
           (:message message)]]))
 
 (defpartial messages [messages channel]
-            [:table.table
+            [:table.table.messages {:data-time (:time (first messages))}
              [:tbody
               (map message messages)
               [:tr.loader

@@ -15,11 +15,14 @@
 (defn add-message [data]
   (mongo/insert! coll data))
 
-(defn get-messages [& [channel page]]
+(defn get-messages [& [channel page params]]
   (let [channel (str "#" channel)
         page (or page 1)
-        skip (* per-page (dec page))]
-    (mongo/fetch coll :where {:channel channel}
+        skip (* per-page (dec page))
+        where (into {:channel channel} params)]
+    (pr params)
+    (pr where)
+    (mongo/fetch coll :where where
                       :skip skip
                       :limit per-page
                       :sort {:time -1})))

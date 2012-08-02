@@ -16,9 +16,9 @@
            (msg-templates/messages (messages/get-messages channel)
                                    channel)))
 
-(defpage "/channels/:channel/:page" {:keys [channel page]}
+(defpage "/channels/:channel/:page" {:keys [channel page first-message-time]}
          (json/json-str
            {:page page
             :html (s/join (map msg-templates/message
                                (messages/get-messages channel
-                                                      (Integer/parseInt page))))}))
+                                                      (Integer/parseInt page) {:time {:$lte (Long/parseLong first-message-time)}})))}))

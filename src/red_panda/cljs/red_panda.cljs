@@ -1,8 +1,8 @@
 (ns red-panda.core
-  (:use [jayq.core :only [$ css inner prepend append document-ready data anim fade-in fade-out bind]]
+  (:use [jayq.core :only [$ css inner prepend append document-ready data anim fade-in fade-out bind unbind]]
         [jayq.util :only [log map->js clj->js]]))
 
-(def current-page 1)
+(def current-page 2)
 (def loading-page 0)
 
 (defn to-json [data]
@@ -15,6 +15,9 @@
 
 (defn current-channel []
   (data ($ "li.active.channel") "channel"))
+
+(defn first-message-time []
+  (data ($ "table.messages") "time"))
 
 (defn page-loader [] ($ "table tbody tr.loader"))
 
@@ -29,14 +32,16 @@
   (let [data (from-json data)
         page (js/parseInt (.-page data))
         html (.-html data)]
-    (set! current-page (inc page))
-    (.before (page-loader) html)))
+    (if (empty? html)
+      (unbind-scroll)
+      (do (set! current-page (inc page))
+          (.before (page-loader) html)))))
 
 (defn load-page []
   (when (not= current-page loading-page)
     (set! loading-page current-page)
     (show-page-loader)
-    (let [params (clj->js {:type "GET" :success page-callback})
+    (let [params (clj->js {:type "GET" :success page-callback :data {:first-message-time (first-message-time)}})
           uri    (str "/channels/"
                       (current-channel)
                       "/"
@@ -52,6 +57,9 @@
     (load-page)))
 
 (defn bind-scroll []
+  (bind ($ js/window) :scroll scroll-handler))
+
+(defn unbind-scroll []
   (bind ($ js/window) :scroll scroll-handler))
 
 (defn subscribe []
