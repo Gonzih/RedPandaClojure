@@ -67,11 +67,9 @@
     (.send ws json)))
 
 (defn on-open []
-  (js/setTimeout subscribe 1000)
-  (log "WebSocket Opened"))
+  (js/setTimeout subscribe 1000))
 
-(defn on-close []
-  (log "WebSocket Closed"))
+(defn on-close [])
 
 (defn row [html & {:keys [uniq]}]
   (str "<tr class='new " uniq "'>" (apply str html) "</tr>"))
