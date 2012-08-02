@@ -87,7 +87,7 @@
       (prepend ($ "table tbody") html)
       (fade-in ($ (str "tr." id)) 1000))))
 
-(def host "ws://localhost:8080/websocket")
+(def host (str "ws://" document.location.hostname ":8080/websocket"))
 
 (def ws (js/WebSocket. host))
 
